@@ -9,3 +9,65 @@ body {
   background-color: blue;
 }
 
+.container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  /* margin: 23.5%; */
+  margin-top: 22.5rem;
+}
+
+
+  
+.grid-template {
+  display: block;
+  grid-area: template;
+  /* overflow: hidden; */
+}
+
+.hint-row{
+  display: block;
+}
+.row{
+  display: flex;
+  grid-area: rows;
+}
+
+.hint-column{
+  display: flex;
+  justify-content: flex-end;
+}
+.column{
+  grid-area: columns;
+}
+
+.grid-template__block{
+  display: flex;
+}
+
+.cell, .cell_column, .cell_row {
+  width: 30px;
+  height: 30px;
+  background-color: rgb(241, 171, 171);
+  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+
+.grid-container {
+  display: grid;
+  grid-template-areas: 
+  'columns columns'
+  'rows template';
+}
+
+.marked{
+  background-color: black;
+}
+
