@@ -1,0 +1,7 @@
+[*]
+# Опции форматирования для всех типов файлов, кроме HTML
+editor.defaultFormatter = esbenp.prettier-vscode
+
+[*.html]
+# Опции форматирования для файлов HTML
+editor.defaultFormatter = NikolaosGeorgiou.html-fmt-vscode

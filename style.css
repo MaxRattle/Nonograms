@@ -1,6 +1,6 @@
 * {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 body {
@@ -9,7 +9,7 @@ body {
   background-color: blue;
 }
 
-.container{
+.container {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -19,35 +19,39 @@ body {
   margin-top: 22.5rem;
 }
 
-
-  
 .grid-template {
   display: block;
   grid-area: template;
   /* overflow: hidden; */
 }
 
-.hint-row{
+.hint-row {
   display: block;
 }
-.row{
+.row {
   display: flex;
   grid-area: rows;
 }
 
-.hint-column{
+.hint-column {
   display: flex;
   justify-content: flex-end;
 }
-.column{
+.column {
   grid-area: columns;
 }
 
-.grid-template__block{
+.dissapear {
+  visibility: hidden;
+}
+
+.grid-template__block {
   display: flex;
 }
 
-.cell, .cell_column, .cell_row {
+.cell,
+.cell_column,
+.cell_row {
   width: 30px;
   height: 30px;
   background-color: rgb(241, 171, 171);
@@ -59,15 +63,13 @@ body {
   overflow: hidden;
 }
 
-
 .grid-container {
   display: grid;
-  grid-template-areas: 
-  'columns columns'
-  'rows template';
+  grid-template-areas:
+    "columns columns"
+    "rows template";
 }
 
-.marked{
+.marked {
   background-color: black;
 }
-
