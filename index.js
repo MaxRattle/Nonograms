@@ -167,36 +167,30 @@ function toggleMarked(cell) {
   cell.classList.toggle("marked");
 }
 
-// Условие победы
-const winningIds = [1, 2, 3, 4, 5, 9, 10, 13, 15, 17, 20, 21, 25];
+// Генерация div.modal и его элементов
+const divModal = document.createElement("div");
+divModal.classList.add("modal");
+document.body.prepend(divModal);
+divModal.innerHTML = `<div class="modal_box">
+                        <h1>Поздравляю! Вы победитель!</h1>
+                        <p>Вы решили нонограмму за [время]</p>
+                        <p>Результат занесен в список!</p>
+                        <button id="modal_box_close_btn" type="button">Вернуться</button>
+                      </div>`;
 
-function checkWinCondition() {
-  let allIdsAreMarked = true;
-  for (let i = 0; i < winningIds.length; i++) {
-    const id = winningIds[i];
-    const element = document.getElementById(id);
-    if (!element || !element.classList.contains("marked")) {
-      allIdsAreMarked = false;
-      break;
-    }
-  }
-  if (allIdsAreMarked) {
-    setTimeout(function () {
-      alert("Вы победили!");
-    }, 100);
-  }
-}
+// Генерация div.timer
+const divTimer = document.createElement("div");
+divTimer.classList.add("timer");
+divContainer.prepend(divTimer);
 
-// Добавляем обработчики событий для каждого элемента
-winningIds.forEach(function (id) {
-  const element = document.getElementById(id);
-  if (element) {
-    element.addEventListener("click", checkWinCondition);
-  }
-});
-
-// Генерация таймера
-//
+// Генерация span.minutes, span.separator, span.seconds, span.miliseconds
+divTimer.innerHTML = `<div class="timer_block">
+                        <span class="minutes">00</span>
+                        <span class="separator">:</span>
+                        <span class="seconds">00</span>
+                        <span class="separator">:</span>
+                        <span class="miliseconds">00</span>
+                      </div>`;
 
 // Добавляем обработчики событий для работы таймера
 let interval;
@@ -228,13 +222,51 @@ function startTimer() {
   }
 }
 
+// Условие победы
+const winningIds = [1, 2, 3, 4, 5, 9, 10, 13, 15, 17, 20, 21, 25];
+const modal = document.querySelector(".modal");
+function checkWinCondition() {
+  let allIdsAreMarked = true;
+  for (let i = 0; i < winningIds.length; i++) {
+    const id = winningIds[i];
+    const element = document.getElementById(id);
+    if (!element || !element.classList.contains("marked")) {
+      allIdsAreMarked = false;
+      break;
+    }
+  }
+  if (allIdsAreMarked) {
+    modal.classList.add("open");
+  }
+}
+
+// Добавляем обработчики событий для каждого элемента
+winningIds.forEach(function (id) {
+  const element = document.getElementById(id);
+  if (element) {
+    element.addEventListener("click", checkWinCondition);
+  }
+});
+
+// Остановка таймера при победе
 let isTimerRunnig = false;
 divGridContainer.addEventListener("click", () => {
   if (!isTimerRunnig) {
     interval = setInterval(startTimer, 10);
     isTimerRunnig = true;
   }
-  if (allIdsAreMarked) {
+  if (modal.classList.contains("open")) {
     clearInterval(interval);
   }
 });
+
+// Возврат из модального окна
+const buttonReturn = document.getElementById("modal_box_close_btn");
+buttonReturn.addEventListener("click", () => modal.classList.remove("open"));
+
+// Генерация button#solution
+const buttonSolution = document.createElement("button");
+buttonSolution.type = "button";
+buttonSolution.id = "solution";
+buttonSolution.textContent = "Решение";
+divTimer.append(buttonSolution);

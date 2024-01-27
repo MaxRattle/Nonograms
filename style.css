@@ -4,8 +4,10 @@
 }
 
 body {
-  width: 100%;
-  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
   background-color: blue;
 }
 
@@ -13,16 +15,14 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  height: 100%;
-  /* margin: 23.5%; */
-  margin-top: 22.5rem;
+  flex-direction: column;
+  width: 500px;
+  max-width: 500px;
 }
 
 .grid-template {
   display: block;
   grid-area: template;
-  /* overflow: hidden; */
 }
 
 .hint-row {
@@ -72,4 +72,48 @@ body {
 
 .marked {
   background-color: black;
+}
+
+.timer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-bottom: 100px;
+}
+
+.modal {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  background-color: rgba(75, 0, 130, 0.8);
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.8s, visibility 0.8s;
+}
+
+.modal_box {
+  max-width: 500px;
+  padding: 45px;
+  margin: 30px 15px;
+  z-index: 1;
+  background-color: white;
+  transform: scale(0);
+  transition: transform 0.8s;
+}
+
+.modal.open {
+  visibility: visible;
+  opacity: 1;
+}
+
+.modal.open .modal_box {
+  transform: scale(1);
 }
