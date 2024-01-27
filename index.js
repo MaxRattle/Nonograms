@@ -196,3 +196,45 @@ winningIds.forEach(function (id) {
 });
 
 // Генерация таймера
+//
+
+// Добавляем обработчики событий для работы таймера
+let interval;
+let minutes = 0;
+let seconds = 0;
+let miliseconds = 0;
+
+const spanMinutes = document.querySelector(".minutes");
+const spanSeconds = document.querySelector(".seconds");
+const spanMiliseconds = document.querySelector(".miliseconds");
+
+function startTimer() {
+  miliseconds++;
+  spanMiliseconds.innerHTML = miliseconds;
+
+  if (miliseconds > 99) {
+    seconds++;
+    miliseconds = 0;
+    if (seconds < 10) {
+      spanSeconds.innerHTML = "0" + seconds;
+    } else {
+      spanSeconds.innerHTML = seconds;
+    }
+    if (seconds > 59) {
+      minutes++;
+      spanMinutes.innerHTML = minutes;
+      seconds = 0;
+    }
+  }
+}
+
+let isTimerRunnig = false;
+divGridContainer.addEventListener("click", () => {
+  if (!isTimerRunnig) {
+    interval = setInterval(startTimer, 10);
+    isTimerRunnig = true;
+  }
+  if (allIdsAreMarked) {
+    clearInterval(interval);
+  }
+});
