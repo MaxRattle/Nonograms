@@ -308,3 +308,61 @@ buttonReset.addEventListener("click", function () {
     divCells[i].classList.remove("marked", "marked-solution");
   }
 });
+
+// Генерация button#random-task
+const buttonRandomTask = document.createElement("button");
+buttonRandomTask.type = "button";
+buttonRandomTask.classList.add("interface_btn");
+buttonRandomTask.id = "random-task";
+buttonRandomTask.textContent = "Случайная игра";
+divInterface.append(buttonRandomTask);
+
+// Добавление обработчика событий к button#random-task // пока пропустим
+
+// Генерация div#select-task
+const divSelectorGame = document.createElement("div");
+divSelectorGame.classList.add("interface_btn");
+divSelectorGame.id = "select-task";
+divInterface.append(divSelectorGame);
+
+// Генерация вариантов выбора для div#select-task
+const selectorTask = `<select>
+                        <optgroup label="Сложность 5x5">
+                          <option value="option_5x5_1">Arrow</option>
+                          <option value="option_5x5_2">Chessboard</option>
+                          <option value="option_5x5_3">House</option>
+                          <option value="option_5x5_4">Skull</option>
+                          <option value="option_5x5_5">Tree</option>
+                        </optgroup>
+                        <optgroup label="Сложность 10x10">
+                          <option value="option_10x10_1">Car</option>
+                          <option value="option_10x10_2">Man</option>
+                          <option value="option_10x10_3">Portal</option>
+                          <option value="option_10x10_4">Rhomb</option>
+                          <option value="option_10x10_5">RS</option>
+                        </optgroup>
+                        <optgroup label="Сложность 15x15">
+                            <option value="option_15x15_1">2024</option>
+                            <option value="option_15x15_2">Apple</option>
+                            <option value="option_15x15_3">Cementory</option>
+                            <option value="option_15x15_4">Dota2</option>
+                            <option value="option_15x15_5">Plus</option>
+                        </optgroup>
+                      </select>`;
+divSelectorGame.innerHTML = selectorTask;
+
+// Добавление обработчика событий к div#select-task // пока пропустим
+
+// Генерация div.results
+const divResults = document.createElement("div");
+divResults.classList.add("results");
+divTimer.append(divResults);
+
+// Временный вариант для div.results
+const resultsLines = `<h1>Arrow</h1
+                       <p>1. 00:01:37</p>
+                       <p>2. 00:01:39</p>
+                       <p>3. 00:02:07</p>
+                       <p>4. 00:02:24</p>
+                       <p>5. 00:03:17</p>`;
+divResults.innerHTML = resultsLines;
