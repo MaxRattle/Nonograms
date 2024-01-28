@@ -240,7 +240,7 @@ function checkWinCondition() {
   }
 }
 
-// Добавляем обработчики событий для каждого элемента
+// Добавляем обработчики событий для каждого элемента условия победы
 winningIds.forEach(function (id) {
   const element = document.getElementById(id);
   if (element) {
@@ -264,9 +264,47 @@ divGridContainer.addEventListener("click", () => {
 const buttonReturn = document.getElementById("modal_box_close_btn");
 buttonReturn.addEventListener("click", () => modal.classList.remove("open"));
 
+// Генерация div.interface
+const divInterface = document.createElement("div");
+divInterface.classList.add("interface");
+divTimer.append(divInterface);
+
 // Генерация button#solution
 const buttonSolution = document.createElement("button");
 buttonSolution.type = "button";
+buttonSolution.classList.add("interface_btn");
 buttonSolution.id = "solution";
 buttonSolution.textContent = "Решение";
-divTimer.append(buttonSolution);
+divInterface.append(buttonSolution);
+
+// Добавление обработчика событий к button#solution
+buttonSolution.addEventListener("click", function () {
+  for (let i = 0; i < winningIds.length; i++) {
+    const id = winningIds[i];
+    const element = document.getElementById(id);
+    if (element) {
+      element.classList.add("marked-solution");
+    }
+  }
+  checkWinCondition();
+});
+
+// Генерация button#reset
+const buttonReset = document.createElement("button");
+buttonReset.type = "button";
+buttonReset.classList.add("interface_btn");
+buttonReset.id = "reset";
+buttonReset.textContent = "Сброс";
+divInterface.append(buttonReset);
+
+// Добавление обработчика событий к button#reset // здесь будет занесения времени в тир-лист результатов
+buttonReset.addEventListener("click", function () {
+  clearInterval(interval);
+  spanMinutes.innerHTML = "00";
+  spanSeconds.innerHTML = "00";
+  spanMiliseconds.innerHTML = "00";
+  isTimerRunnig = false;
+  for (let i = 0; i <= divCells.length; i++) {
+    divCells[i].classList.remove("marked", "marked-solution");
+  }
+});

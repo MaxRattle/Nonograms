@@ -70,7 +70,8 @@ body {
     "rows template";
 }
 
-.marked {
+.marked,
+.marked-solution {
   background-color: black;
 }
 
@@ -116,4 +117,8 @@ body {
 
 .modal.open .modal_box {
   transform: scale(1);
+}
+
+.interface {
+  display: flex;
 }
