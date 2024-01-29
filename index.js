@@ -89,8 +89,7 @@ const divGridTemplate = document.createElement("div");
 divGridTemplate.classList.add("grid-template");
 divGridContainer.append(divGridTemplate);
 
-// Генерация div.grid-template__block
-// Шаблон игровой сетки
+// Генерация div.grid-template__block // будет аргументом функции
 const gridTemplateBlocks = [
   [1, 2, 3, 4, 5],
   [6, 7, 8, 9, 10],
@@ -356,7 +355,7 @@ const divResults = document.createElement("div");
 divResults.classList.add("results");
 divTimer.append(divResults);
 
-// Добавление в div.results h1#selected-task
+// Генерация в div.results h1#selected-task
 const h1_select = document.createElement("h1");
 h1_select.id = "selected-task";
 divResults.append(h1_select);
