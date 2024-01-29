@@ -317,16 +317,14 @@ buttonRandomTask.id = "random-task";
 buttonRandomTask.textContent = "Случайная игра";
 divInterface.append(buttonRandomTask);
 
-// Добавление обработчика событий к button#random-task // пока пропустим
-
 // Генерация div#select-task
-const divSelectorGame = document.createElement("div");
-divSelectorGame.classList.add("interface_btn");
-divSelectorGame.id = "select-task";
-divInterface.append(divSelectorGame);
+const divSelectTask = document.createElement("div");
+divSelectTask.classList.add("interface_btn");
+divSelectTask.id = "select-task";
+divInterface.append(divSelectTask);
 
 // Генерация вариантов выбора для div#select-task
-const selectorTask = `<select>
+const selectTask = `<select id="select">
                         <optgroup label="Сложность 5x5">
                           <option value="option_5x5_1">Arrow</option>
                           <option value="option_5x5_2">Chessboard</option>
@@ -348,8 +346,8 @@ const selectorTask = `<select>
                             <option value="option_15x15_4">Dota2</option>
                             <option value="option_15x15_5">Plus</option>
                         </optgroup>
-                      </select>`;
-divSelectorGame.innerHTML = selectorTask;
+                    </select>`;
+divSelectTask.innerHTML = selectTask;
 
 // Добавление обработчика событий к div#select-task // пока пропустим
 
@@ -358,11 +356,27 @@ const divResults = document.createElement("div");
 divResults.classList.add("results");
 divTimer.append(divResults);
 
-// Временный вариант для div.results
-const resultsLines = `<h1>Arrow</h1
-                       <p>1. 00:01:37</p>
-                       <p>2. 00:01:39</p>
-                       <p>3. 00:02:07</p>
-                       <p>4. 00:02:24</p>
-                       <p>5. 00:03:17</p>`;
-divResults.innerHTML = resultsLines;
+// Добавление в div.results h1#selected-task
+const h1_select = document.createElement("h1");
+h1_select.id = "selected-task";
+divResults.append(h1_select);
+
+// Установка задачи по умолчанию
+h1_select.textContent = "Arrow";
+
+// Добавление названия задачи в div.results
+const selectedTask = document.getElementById("select");
+selectedTask.addEventListener("change", function () {
+  const changeTask = select.options[select.selectedIndex].text;
+  h1_select.textContent = changeTask;
+});
+
+// Добавление div.timer в div.results после закрытия модалього окна
+buttonReturn.addEventListener("click", () => {
+  const timerResults = `${spanMinutes.innerText}:${spanSeconds.innerText}:${spanMiliseconds.innerText}`;
+  const pTimerResults = document.createElement("p");
+  pTimerResults.innerText = timerResults;
+  divResults.append(pTimerResults);
+});
+
+// Добавления обработчика событий к "случайной игре"
