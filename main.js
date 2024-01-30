@@ -35,15 +35,22 @@ const divTimer = document.createElement("div");
 divTimer.classList.add("timer");
 divContainer.prepend(divTimer);
 
-// Добавляем обработчики событий для работы таймера // тут может быть проблемы с областью видимости
-let interval;
-let minutes = 0;
-let seconds = 0;
-let miliseconds = 0;
+// тут нужно исправить логику времени, возможно снести блок вниз
+divModal.innerHTML = `<div class="modal_box">
+                        <h1>Поздравляю! Вы победитель!</h1>
+                        <p>Вы решили нонограмму за <span id="time-modal"></span></p>
+                        <p>Результат занесен в список!</p>
+                        <button id="modal_box_close_btn" type="button">Вернуться</button>
+                      </div>`;
 
-const spanMinutes = document.querySelector(".minutes");
-const spanSeconds = document.querySelector(".seconds");
-const spanMiliseconds = document.querySelector(".miliseconds");
+// Генерация span.minutes, span.separator, span.seconds, span.miliseconds
+divTimer.innerHTML = `<div class="timer_block">
+                        <span class="minutes">00</span>
+                        <span class="separator">:</span>
+                        <span class="seconds">00</span>
+                        <span class="separator">:</span>
+                        <span class="miliseconds">00</span>
+                      </div>`;
 
 // Генерация div.interface
 const divInterface = document.createElement("div");
@@ -105,6 +112,9 @@ const selectTask = `<select id="select">
                         </optgroup>
                     </select>`;
 
+// Генерация вариантов выбора для div#select-task
+divSelectTask.innerHTML = selectTask;
+
 // Генерация div.results
 const divResults = document.createElement("div");
 divResults.classList.add("results");
@@ -115,11 +125,8 @@ const h1_select = document.createElement("h1");
 h1_select.id = "selected-task";
 divResults.append(h1_select);
 
-function taskRunner(columnHint, rowHint, gridTemplateBlocks, winningIds) {
+function taskRunner(/*columnHint, rowHint, gridTemplateBlocks, winningIds*/) {
   // Динамическая генерация
-
-  // Генерация div.hint-column
-  // const columnHint = [[], [1, 1, 1, 0, 0], [1, 1, 1, 2, 5]]; // подсказки по оси Y // заменить на аргумент функции
   while (
     document.getElementsByClassName("hint-column").length != columnHint.length
   ) {
@@ -153,7 +160,7 @@ function taskRunner(columnHint, rowHint, gridTemplateBlocks, winningIds) {
   });
 
   // Генерация div.hint-row
-  // const rowHint = [[], [0, 0, 1, 1, 1], [5, 2, 1, 1, 1]]; // подсказки по оси X // заменить на аргумент функции
+
   while (document.getElementsByClassName("hint-row").length != rowHint.length) {
     const divHintRow = document.createElement("div");
     divHintRow.classList.add("hint-row");
@@ -183,15 +190,6 @@ function taskRunner(columnHint, rowHint, gridTemplateBlocks, winningIds) {
       divRowsCells.remove();
     }
   });
-
-  // Генерация div.grid-template__block // будер аргументом функции
-  // const gridTemplateBlocks = [
-  //   [1, 2, 3, 4, 5],
-  //   [6, 7, 8, 9, 10],
-  //   [11, 12, 13, 14, 15],
-  //   [16, 17, 18, 19, 20],
-  //   [21, 22, 23, 24, 25],
-  // ];
 
   while (
     document.getElementsByClassName("grid-template__block").length !=
@@ -261,22 +259,15 @@ function taskRunner(columnHint, rowHint, gridTemplateBlocks, winningIds) {
     cell.classList.toggle("marked");
   }
 
-  // тут нужно исправить логику времени, возможно снести блок вниз
-  divModal.innerHTML = `<div class="modal_box">
-                        <h1>Поздравляю! Вы победитель!</h1>
-                        <p>Вы решили нонограмму за [время]</p>
-                        <p>Результат занесен в список!</p>
-                        <button id="modal_box_close_btn" type="button">Вернуться</button>
-                      </div>`;
+  // Добавляем обработчики событий для работы таймера //
+  let interval;
+  let minutes = 0;
+  let seconds = 0;
+  let miliseconds = 0;
 
-  // Генерация span.minutes, span.separator, span.seconds, span.miliseconds
-  divTimer.innerHTML = `<div class="timer_block">
-                        <span class="minutes">00</span>
-                        <span class="separator">:</span>
-                        <span class="seconds">00</span>
-                        <span class="separator">:</span>
-                        <span class="miliseconds">00</span>
-                      </div>`;
+  const spanMinutes = document.querySelector(".minutes");
+  const spanSeconds = document.querySelector(".seconds");
+  const spanMiliseconds = document.querySelector(".miliseconds");
 
   // Добавляем обработчики событий для работы таймера
   function startTimer() {
@@ -300,8 +291,8 @@ function taskRunner(columnHint, rowHint, gridTemplateBlocks, winningIds) {
   }
 
   // Условие победы
-  // const winningIds = [1, 2, 3, 4, 5, 9, 10, 13, 15, 17, 20, 21, 25]; // будет аргументом функции
   const modal = document.querySelector(".modal");
+  const timeModal = document.getElementById("time-modal");
   function checkWinCondition() {
     let allIdsAreMarked = true;
     for (let i = 0; i < winningIds.length; i++) {
@@ -313,6 +304,8 @@ function taskRunner(columnHint, rowHint, gridTemplateBlocks, winningIds) {
       }
     }
     if (allIdsAreMarked) {
+      const timerResultsModal = `${spanMinutes.innerText}:${spanSeconds.innerText}:${spanMiliseconds.innerText}`;
+      timeModal.textContent = timerResultsModal;
       modal.classList.add("open");
     }
   }
@@ -365,9 +358,6 @@ function taskRunner(columnHint, rowHint, gridTemplateBlocks, winningIds) {
     }
   });
 
-  // Генерация вариантов выбора для div#select-task
-  divSelectTask.innerHTML = selectTask;
-
   // Добавление обработчика событий к div#select-task // пока пропустим
 
   // Установка задачи по умолчанию // здесь возможно оптимизировать, условно брать первое значение из массива
@@ -391,8 +381,33 @@ function taskRunner(columnHint, rowHint, gridTemplateBlocks, winningIds) {
   // Добавления обработчика событий к "случайной игре" // пока пропустим
 }
 
-const columnHintTest = [[], [1, 1, 1, 0, 0], [1, 1, 1, 2, 5]];
-const rowHintTest = [[], [0, 0, 1, 1, 1], [5, 2, 1, 1, 1]];
+// const columnHintTest = [
+//   [1, 1, 1, 0, 0],
+//   [1, 1, 1, 2, 5],
+// ];
+// const rowHintTest = [
+//   [0, 0, 1, 1, 1],
+//   [5, 2, 1, 1, 1],
+// ];
+// const gridTemplateBlocksTest = [
+//   [1, 2, 3, 4, 5],
+//   [6, 7, 8, 9, 10],
+//   [11, 12, 13, 14, 15],
+//   [16, 17, 18, 19, 20],
+//   [21, 22, 23, 24, 25],
+// ];
+// const winningIdsTest = [1, 2, 3, 4, 5, 9, 10, 13, 15, 17, 20, 21, 25];
+// task chessboard
+const columnHintTest = [
+  [0, 1, 0, 1, 0],
+  [1, 1, 1, 1, 1],
+  [1, 1, 1, 1, 1],
+];
+const rowHintTest = [
+  [0, 1, 0, 1, 0],
+  [1, 1, 1, 1, 1],
+  [1, 1, 1, 1, 1],
+];
 const gridTemplateBlocksTest = [
   [1, 2, 3, 4, 5],
   [6, 7, 8, 9, 10],
@@ -400,6 +415,6 @@ const gridTemplateBlocksTest = [
   [16, 17, 18, 19, 20],
   [21, 22, 23, 24, 25],
 ];
-const winningIdsTest = [1, 2, 3, 4, 5, 9, 10, 13, 15, 17, 20, 21, 25];
+const winningIdsTest = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24];
 
 taskRunner(columnHintTest, rowHintTest, gridTemplateBlocksTest, winningIdsTest);
