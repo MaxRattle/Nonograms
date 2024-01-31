@@ -124,8 +124,56 @@ divTimer.append(divResults);
 const h1_select = document.createElement("h1");
 h1_select.id = "selected-task";
 divResults.append(h1_select);
+h1_select.textContent = "Arrow";
 
-function taskRunner(/*columnHint, rowHint, gridTemplateBlocks, winningIds*/) {
+// Переменная для хранения данных из JSON файла
+let jsonData;
+
+// Функция чтения и сохранения данных из JSON файла
+function readJsonFile() {
+  return fetch("./tasks/tasks.json")
+    .then((response) => response.json())
+    .then((data) => {
+      jsonData = data;
+    })
+    .catch((error) => {
+      console.log(error); // Ошибка запроса или парсинга JSON;
+    });
+}
+
+// Вызов функции чтения и сохранения данных из JSON файла при загрузке страницы
+readJsonFile();
+
+// Обработчик события изменения выбранной опции в селекте // как я намучился с этим
+const selectTaskId = document.getElementById("select");
+selectTaskId.addEventListener("change", function () {
+  const changeTask = selectTaskId.options[selectTaskId.selectedIndex].text;
+  h1_select.textContent = changeTask;
+
+  // Проверка, что данные из JSON файла уже загружены
+  if (jsonData) {
+    const columnHint = jsonData[h1_select.textContent].columnHint;
+    const rowHint = jsonData[h1_select.textContent].rowHint;
+    const gridTemplateBlocks =
+      jsonData[h1_select.textContent].gridTemplateBlocks;
+    const winningIds = jsonData[h1_select.textContent].winningIds;
+
+    taskRunner(columnHint, rowHint, gridTemplateBlocks, winningIds);
+  }
+});
+
+// Функция запуска динамической генерации
+function taskRunner(columnHint, rowHint, gridTemplateBlocks, winningIds) {
+  // Проверка, что div.column, div.row. div.grid-template пустые // как я намучился с этим
+  if (
+    divColumn.childElementCount != 0 ||
+    divRow.childElementCount != 0 ||
+    divGridTemplate.childElementCount != 0
+  ) {
+    divColumn.innerHTML = "";
+    divRow.innerHTML = "";
+    divGridTemplate.innerHTML = "";
+  }
   // Динамическая генерация
   while (
     document.getElementsByClassName("hint-column").length != columnHint.length
@@ -353,15 +401,10 @@ function taskRunner(/*columnHint, rowHint, gridTemplateBlocks, winningIds*/) {
     spanSeconds.innerHTML = "00";
     spanMiliseconds.innerHTML = "00";
     isTimerRunnig = false;
-    for (let i = 0; i <= divCells.length; i++) {
+    for (let i = 0; i < divCells.length; i++) {
       divCells[i].classList.remove("marked", "marked-solution");
     }
   });
-
-  // Добавление обработчика событий к div#select-task // пока пропустим
-
-  // Установка задачи по умолчанию // здесь возможно оптимизировать, условно брать первое значение из массива
-  h1_select.textContent = "Arrow";
 
   // Добавление названия задачи в div.results
   const selectedTask = document.getElementById("select");
@@ -377,44 +420,13 @@ function taskRunner(/*columnHint, rowHint, gridTemplateBlocks, winningIds*/) {
     pTimerResults.innerText = timerResults;
     divResults.append(pTimerResults);
   });
-
-  // Добавления обработчика событий к "случайной игре" // пока пропустим
 }
 
-// const columnHintTest = [
-//   [1, 1, 1, 0, 0],
-//   [1, 1, 1, 2, 5],
-// ];
-// const rowHintTest = [
-//   [0, 0, 1, 1, 1],
-//   [5, 2, 1, 1, 1],
-// ];
-// const gridTemplateBlocksTest = [
-//   [1, 2, 3, 4, 5],
-//   [6, 7, 8, 9, 10],
-//   [11, 12, 13, 14, 15],
-//   [16, 17, 18, 19, 20],
-//   [21, 22, 23, 24, 25],
-// ];
-// const winningIdsTest = [1, 2, 3, 4, 5, 9, 10, 13, 15, 17, 20, 21, 25];
-// task chessboard
-const columnHintTest = [
-  [0, 1, 0, 1, 0],
-  [1, 1, 1, 1, 1],
-  [1, 1, 1, 1, 1],
-];
-const rowHintTest = [
-  [0, 1, 0, 1, 0],
-  [1, 1, 1, 1, 1],
-  [1, 1, 1, 1, 1],
-];
-const gridTemplateBlocksTest = [
-  [1, 2, 3, 4, 5],
-  [6, 7, 8, 9, 10],
-  [11, 12, 13, 14, 15],
-  [16, 17, 18, 19, 20],
-  [21, 22, 23, 24, 25],
-];
-const winningIdsTest = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24];
-
-taskRunner(columnHintTest, rowHintTest, gridTemplateBlocksTest, winningIdsTest);
+// window.onload = function () {
+//   taskRunner(
+//     jsonData[h1_select.textContent].columnHint,
+//     jsonData[h1_select.textContent].rowHint,
+//     jsonData[h1_select.textContent].gridTemplateBlocks,
+//     jsonData[h1_select.textContent].winningIds
+//   );
+// };
