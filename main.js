@@ -432,11 +432,28 @@ function taskRunner(columnHint, rowHint, gridTemplateBlocks, winningIds) {
   selectedTask.addEventListener("change", function () {
     const changeTask = select.options[select.selectedIndex].text;
     h1_select.textContent = changeTask;
+    // Обнуление таймера и удаление записанных ранее результатов
+    clearInterval(interval);
+    spanMinutes.innerHTML = "00";
+    spanSeconds.innerHTML = "00";
+    spanMiliseconds.innerHTML = "00";
+    isTimerRunnig = false;
+    const divResults = document.querySelector(".results");
+    const paragraphs = divResults.querySelectorAll("p");
+    paragraphs.forEach((paragraph) => {
+      paragraph.remove();
+    });
+    п;
   });
 
   // Добавление div.timer в div.results после закрытия модалього окна
   buttonReturn.addEventListener("click", () => {
     const timerResults = `${spanMinutes.innerText}:${spanSeconds.innerText}:${spanMiliseconds.innerText}`;
+    // Проверяем наличие существующих элементов <p>
+    const existingParagraphs = divResults.querySelectorAll("p");
+    existingParagraphs.forEach((paragraph) => {
+      paragraph.remove();
+    });
     const pTimerResults = document.createElement("p");
     pTimerResults.innerText = timerResults;
     divResults.append(pTimerResults);
