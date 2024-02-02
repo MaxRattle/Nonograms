@@ -135,6 +135,21 @@ function readJsonFile() {
     .then((response) => response.json())
     .then((data) => {
       jsonData = data;
+
+      // Проверка, что выбранная опция в селекте уже существует и вызов функции для создания задачи по умолчанию
+      if (selectTaskId.selectedIndex > -1) {
+        const changeTask =
+          selectTaskId.options[selectTaskId.selectedIndex].text;
+        h1_select.textContent = changeTask;
+
+        const columnHint = jsonData[h1_select.textContent].columnHint;
+        const rowHint = jsonData[h1_select.textContent].rowHint;
+        const gridTemplateBlocks =
+          jsonData[h1_select.textContent].gridTemplateBlocks;
+        const winningIds = jsonData[h1_select.textContent].winningIds;
+
+        taskRunner(columnHint, rowHint, gridTemplateBlocks, winningIds);
+      }
     })
     .catch((error) => {
       console.log(error); // Ошибка запроса или парсинга JSON;
@@ -384,6 +399,12 @@ function taskRunner(columnHint, rowHint, gridTemplateBlocks, winningIds) {
 
   // Добавление обработчика событий к button#solution
   buttonSolution.addEventListener("click", function () {
+    // Удаление прошлых отмеченных решение этой кнопки
+    const markedSolutionElements =
+      document.querySelectorAll(".marked-solution");
+    markedSolutionElements.forEach(function (element) {
+      element.classList.remove("marked-solution");
+    });
     for (let i = 0; i < winningIds.length; i++) {
       const id = winningIds[i];
       const element = document.getElementById(id);
@@ -421,12 +442,3 @@ function taskRunner(columnHint, rowHint, gridTemplateBlocks, winningIds) {
     divResults.append(pTimerResults);
   });
 }
-
-// window.onload = function () {
-//   taskRunner(
-//     jsonData[h1_select.textContent].columnHint,
-//     jsonData[h1_select.textContent].rowHint,
-//     jsonData[h1_select.textContent].gridTemplateBlocks,
-//     jsonData[h1_select.textContent].winningIds
-//   );
-// };
