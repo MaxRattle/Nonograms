@@ -430,7 +430,7 @@ function taskRunner(columnHint, rowHint, gridTemplateBlocks, winningIds) {
   // Добавление названия задачи в div.results
   const selectedTask = document.getElementById("select");
   selectedTask.addEventListener("change", function () {
-    const changeTask = select.options[select.selectedIndex].text;
+    const changeTask = selectedTask.options[select.selectedIndex].text;
     h1_select.textContent = changeTask;
     // Обнуление таймера и удаление записанных ранее результатов
     clearInterval(interval);
@@ -438,24 +438,29 @@ function taskRunner(columnHint, rowHint, gridTemplateBlocks, winningIds) {
     spanSeconds.innerHTML = "00";
     spanMiliseconds.innerHTML = "00";
     isTimerRunnig = false;
-    const divResults = document.querySelector(".results");
-    const paragraphs = divResults.querySelectorAll("p");
-    paragraphs.forEach((paragraph) => {
-      paragraph.remove();
-    });
-    п;
-  });
-
-  // Добавление div.timer в div.results после закрытия модалього окна
-  buttonReturn.addEventListener("click", () => {
-    const timerResults = `${spanMinutes.innerText}:${spanSeconds.innerText}:${spanMiliseconds.innerText}`;
     // Проверяем наличие существующих элементов <p>
     const existingParagraphs = divResults.querySelectorAll("p");
     existingParagraphs.forEach((paragraph) => {
       paragraph.remove();
     });
-    const pTimerResults = document.createElement("p");
-    pTimerResults.innerText = timerResults;
-    divResults.append(pTimerResults);
+  });
+
+  // Добавление div.timer в div.results после закрытия модалього окна // были проблемы с областью видимости, поэтому массив в этом плане хорош
+  const timerArray = [];
+  buttonReturn.addEventListener("click", () => {
+    const timerResults = `${spanMinutes.innerText}:${spanSeconds.innerText}:${spanMiliseconds.innerText}`;
+    // Добавляем текущее время в массив
+    timerArray.push(timerResults);
+    // Удаляем предыдущие элементы <p>
+    const existingParagraphs = divResults.querySelectorAll("p");
+    existingParagraphs.forEach((paragraph) => {
+      paragraph.remove();
+    });
+    // Создаем элементы <p> для каждого времени в массиве и добавляем их в divResults
+    timerArray.forEach((time) => {
+      const pTimerResults = document.createElement("p");
+      pTimerResults.innerText = time;
+      divResults.append(pTimerResults);
+    });
   });
 }
