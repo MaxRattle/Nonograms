@@ -428,6 +428,7 @@ function taskRunner(columnHint, rowHint, gridTemplateBlocks, winningIds) {
   });
 
   // Добавление названия задачи в div.results
+  // Добавление обработчика событий к select
   const selectedTask = document.getElementById("select");
   selectedTask.addEventListener("change", function () {
     const changeTask = selectedTask.options[select.selectedIndex].text;
@@ -446,6 +447,7 @@ function taskRunner(columnHint, rowHint, gridTemplateBlocks, winningIds) {
   });
 
   // Добавление div.timer в div.results после закрытия модалього окна // были проблемы с областью видимости, поэтому массив в этом плане хорош
+  // Добавление обработчика событий к button#modal_box_close_btn
   const timerArray = [];
   buttonReturn.addEventListener("click", () => {
     const timerResults = `${spanMinutes.innerText}:${spanSeconds.innerText}:${spanMiliseconds.innerText}`;
@@ -463,4 +465,28 @@ function taskRunner(columnHint, rowHint, gridTemplateBlocks, winningIds) {
       divResults.append(pTimerResults);
     });
   });
+
+  // Добавление обработчика событий к button#random-task
+  const buttonRandomTask = document.getElementById("random-task");
+  buttonRandomTask.addEventListener("click", () => {
+    // Проверка, что данные из JSON файла уже загружены
+    if (jsonData) {
+      // Получение массива ключей из JSON-объекта
+      const taskKeys = Object.keys(jsonData);
+      // Получение случайного индекса из массива ключей
+      const randomIndex = getRandomIndex(taskKeys.length);
+      // Получение случайного параметра (название задачи)
+      const randomTask = taskKeys[randomIndex];
+      // Получение других параметров по случайному названию задачи
+      const columnHint = jsonData[randomTask].columnHint;
+      const rowHint = jsonData[randomTask].rowHint;
+      const gridTemplateBlocks = jsonData[randomTask].gridTemplateBlocks;
+      const winningIds = jsonData[randomTask].winningIds;
+      taskRunner(columnHint, rowHint, gridTemplateBlocks, winningIds);
+    }
+  });
+  // Генерация случайного индекса для обработчика событий button#random-task
+  function getRandomIndex(length) {
+    return Math.floor(Math.random() * length);
+  }
 }
