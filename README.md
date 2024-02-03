@@ -1,5 +1,8 @@
 # **Нонограммы**
-Проект представляет собой реализацию типичной игры - [нонограммы](https://en.wikipedia.org/wiki/Nonogram). 
+Проект представляет собой реализацию типичной игры - [нонограммы](https://en.wikipedia.org/wiki/Nonogram).
+
+# Деплой
+[**Нонограммы**](https://maxrattle.github.io/Nonograms/)
 
 ## Превью:
 ![2024-02-03_16-33-39](https://github.com/MaxRattle/Nonograms/assets/94513379/47c7caca-eaef-440b-82d2-999b83588c54)
