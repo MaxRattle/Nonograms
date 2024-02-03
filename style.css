@@ -96,7 +96,7 @@ body {
   width: 100%;
   height: 100%;
   z-index: 100;
-  background-color: rgba(75, 0, 130, 0.8);
+  background-color: rgba(0, 6, 14, 0.9);
   display: grid;
   align-items: center;
   justify-content: center;
@@ -108,12 +108,17 @@ body {
 
 .modal_box {
   max-width: 500px;
-  padding: 45px;
+  padding: 25px;
   margin: 30px 15px;
   z-index: 1;
-  background-color: white;
   transform: scale(0);
   transition: transform 0.8s;
+  border-radius: 10px;
+  color: #ffffff;
+  background-color: #021f3f94;
+}
+.modal_box h1 {
+  margin-bottom: 10px;
 }
 
 .modal.open {
@@ -134,12 +139,17 @@ body {
 }
 
 .interface_btn,
-#select {
+#select,
+#modal_box_close_btn {
   border: none;
   color: #ffffff;
   background-color: #0466c8;
   border-radius: 5px;
   width: 80px;
+}
+
+#modal_box_close_btn {
+  margin-top: 20px;
 }
 
 #selected-task {
