@@ -106,7 +106,7 @@ const selectTask = `<select id="select">
                         <optgroup label="Сложность 15x15">
                             <option value="option_15x15_1">2024</option>
                             <option value="option_15x15_2">Apple</option>
-                            <option value="option_15x15_3">Cementory</option>
+                            <option value="option_15x15_3">Cemetery</option>
                             <option value="option_15x15_4">Dota2</option>
                             <option value="option_15x15_5">Plus</option>
                         </optgroup>
@@ -477,6 +477,8 @@ function taskRunner(columnHint, rowHint, gridTemplateBlocks, winningIds) {
       const randomIndex = getRandomIndex(taskKeys.length);
       // Получение случайного параметра (название задачи)
       const randomTask = taskKeys[randomIndex];
+      // Изменения названия задачи в div.results
+      h1_select.textContent = randomTask;
       // Получение других параметров по случайному названию задачи
       const columnHint = jsonData[randomTask].columnHint;
       const rowHint = jsonData[randomTask].rowHint;
