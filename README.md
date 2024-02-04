@@ -51,7 +51,7 @@ const selectTask = `<select id="select">
                         <optgroup label="Сложность 15x15">
                             <option value="option_15x15_1">2024</option>
                             <option value="option_15x15_2">Apple</option>
-                            <option value="option_15x15_3">Cementory</option>
+                            <option value="option_15x15_3">Cemetery</option>
                             <option value="option_15x15_4">Dota2</option>
                             <option value="option_15x15_5">Plus</option>
                         </optgroup>
